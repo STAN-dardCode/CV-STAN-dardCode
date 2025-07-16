@@ -22,8 +22,9 @@ struct ExperienceView: View {
         ("Wahrdienst", "Bulgarien", "06.2004-03-2005"),
         ("AUSBILDUNG:\nTechnologie der Produktion und Bedienung in der öffentlichen Ernährung", "Berufsschule für Tourismus, N.Y Vaptzarov\nKyustendil, Bulgarien", "09.1998-07.2003")
     ]
-    
+    //menü klappbar
     @State private var isExpanded = false
+    @Namespace private var animationNamespace
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12){
@@ -40,7 +41,9 @@ struct ExperienceView: View {
                     .foregroundColor(.white)
                     .animation(.easeInOut, value: isExpanded)
                     .onTapGesture {
-                        isExpanded.toggle()
+                        withAnimation(.easeInOut(duration: 0.9)){
+                            isExpanded.toggle()
+                        }
                     }
             }
             
@@ -48,37 +51,24 @@ struct ExperienceView: View {
             if isExpanded {
                 Divider()
                     .background()
-                ForEach(jobs, id: \.0) { job in
-                    HStack(alignment: .top, spacing: 10) {
-                        Divider()
-                        //Trenner
-                        Rectangle()
-                            .fill(Color.yellow)
-                            .frame(width: 4)
-                            .cornerRadius(2)
+                ForEach(jobs.indices, id: \.self) { index in
+                    let job = jobs[index]
+                    
+                    JobCardView(job: job, isCurrent: index == 0)
+                        .transition(.move(edge: .leading).combined(with: .opacity))
+                        .animation(.easeIn.delay(Double(index) * 0.05), value: isExpanded)
                         
-                        //Jobinfos von meine Array
-                        VStack(alignment: .leading, spacing: 4){
-                            Text(job.0)//Titel
-                                .bold()
-                                .foregroundColor(.white)
-                            Text(job.1)//Wo
-                                .foregroundColor(.gray)
-                            Text(job.2)// period
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
+                        
                     }
+                    
                 }
             }
-        }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.black).opacity(0.8))
                 .shadow(color: .yellow, radius: 6, x: 3, y: 2))
         .padding(.horizontal)
-        .padding(.top, 0)
 
     }
 }

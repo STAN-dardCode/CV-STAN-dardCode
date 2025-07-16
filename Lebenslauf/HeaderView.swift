@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct HeaderView: View {
+    //Profilbild animieren
+    @State private var animateIntro = false
+    
     var body: some View {
         
         VStack(spacing: 15) {
@@ -17,10 +20,13 @@ struct HeaderView: View {
                 Image("Profilbild")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 140, height: 140)
+                    .frame(maxWidth: 140, maxHeight: 140)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.gold, lineWidth: 2))
                     .shadow(color: .yellow, radius: 5)
+                    .opacity(animateIntro ? 1 : 0)
+                    .offset(x: animateIntro ? 0 : -80)
+                    .animation(.interpolatingSpring(stiffness: 70, damping: 10).delay(0.4), value: animateIntro)
                 
                 // Textblock: Name & Kontaktdaten
                 VStack(alignment: .leading, spacing: 5) {
@@ -28,6 +34,11 @@ struct HeaderView: View {
                         .font(.title2)
                         .bold()
                         .foregroundColor(.white)
+                    //für kleinere Displays- automatisch kleiner wenn wennig Platz
+                        .minimumScaleFactor(0.7)
+                        .opacity(animateIntro ? 1 : 0)
+                        .offset(y: animateIntro ? 0 : -20)
+                        .animation(.easeOut(duration: 1.2), value: animateIntro)
                     Divider()
                         .background(Color.yellow)
                         .padding()
@@ -35,14 +46,40 @@ struct HeaderView: View {
                     
                     Label("17.12.1984", systemImage: "calendar")
                     Label("Neue Straße 19a, 21635 Jork", systemImage: "house")
+                    //für kleinere Displays- automatisch kleiner wenn wennig Platz
+                        .minimumScaleFactor(0.7)
                     
                     Link(destination: URL(string: "mailto:st.stancheff@gmail.com")!) {
-                        Label("st.stancheff@gmail.com", systemImage: "envelope")
-                            .foregroundColor(.blue)
+                        HStack{
+                            ZStack {
+                                Circle()
+                                    .fill(Color.black.opacity(0.8))
+                                    .frame(width: 26, height: 26)
+                                    .overlay(Circle().stroke(Color.gold, lineWidth: 1))
+                                    .shadow(color: .yellow, radius: 8)
+                                Image(systemName: "envelope")
+                            }
+                            
+                            Text("st.stancheff@gmail.com")
+                        }
+                        .foregroundColor(.blue)
+                        .font(.subheadline)
+                        .minimumScaleFactor(0.7)
                     }
                     Link(destination: URL(string: "tel:+4915229062570")!) {
-                        Label("+49 152 29062570", systemImage: "phone")
-                            .foregroundColor(.white)
+                        HStack {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.black.opacity(0.7))
+                                    .frame(width: 26, height: 26).overlay(Circle().stroke(Color.gold, lineWidth: 1))
+                                    .shadow(color: .yellow, radius: 8)
+                                Image(systemName: "phone")
+                            }
+                            
+                            Text("+49 1522 9062570")
+                        }
+                        .foregroundColor(.blue)
+                        .font(.subheadline)
                     }
                 }
                 .font(.subheadline)
@@ -101,9 +138,16 @@ struct HeaderView: View {
                     .background(Color.clear)
                     .offset(y: 35), //verschiebt die Icons nach unten
                 alignment: .bottom
+                
             )
+            
+            .onAppear {
+                animateIntro = true
+            }
         }
-    }}
+    }
+    
+}
 
 #Preview {
     HeaderView()
