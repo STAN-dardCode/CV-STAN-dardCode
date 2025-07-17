@@ -36,7 +36,7 @@ struct CVView: View {
                             ])
                             Divider().background(Color.yellow).padding(.horizontal)
                             InfoListView(title: " Sprachkenntnisse", items: [
-                                "🇩🇪 Deutsch", "🏴 Englisch", "🇷🇺 Russisch", "🇧🇬 Bulgarisch (Muttersprache)"
+                                "🇩🇪 Deutsch", "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Englisch", "🇷🇺 Russisch", "🇧🇬 Bulgarisch (Muttersprache)"
                             ])
                             Divider().background(Color.yellow).padding(.horizontal)
                             InfoListView(title: " EDV-Kenntnisse", items: [

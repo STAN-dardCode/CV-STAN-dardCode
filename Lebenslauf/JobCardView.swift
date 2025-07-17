@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct JobCardView: View {
+    //Tupel mit 3 strings
     var job: (String, String, String)
     //akktuelle Position hervorheben
     var isCurrent: Bool
     
     var body: some View {
-        //Jobinfos von meine Array
+        //Jobinfos von meine Array untereinander
         VStack(alignment: .leading, spacing: 4){
             Text(job.0)//Titel
                 .bold()
@@ -24,15 +25,13 @@ struct JobCardView: View {
                 .font(.caption)
                 .foregroundColor(.gray)
         }
-        .padding()
+       
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color(.black).opacity(0.9))
-                .shadow(color: .yellow.opacity(0.5), radius: 4, x: 2, y: 2)
-        )
-        .padding(.vertical, 4)
+        .styleModi()
     }
 }
 
+#Preview {
+    JobCardView(job: ("Chefkoch bei Dema 03 Ltd.", "Sofia, Bulgarien", "04.2005-10.2013"), isCurrent: false)
+}
 

@@ -8,50 +8,62 @@
 import SwiftUI
 
 struct HeaderView: View {
+    
     //Profilbild animieren
     @State private var animateIntro = false
     
     var body: some View {
-        
+        //vertikalen abstand
         VStack(spacing: 15) {
             // Oberer Bereich: Bild & Kontakt
             HStack(alignment: .center, spacing: 10) {
                 // Profilbild mit Schatten & Rand
                 Image("Profilbild")
+                //skalierbar
                     .resizable()
+                //ohne verzerrung
                     .aspectRatio(contentMode: .fill)
+                //rahmen
                     .frame(maxWidth: 140, maxHeight: 140)
+                //form
                     .clipShape(Circle())
+                //Rand
                     .overlay(Circle().stroke(Color.gold, lineWidth: 2))
+                //schatten für tiefe
                     .shadow(color: .yellow, radius: 5)
+                //animieren bei starten
                     .opacity(animateIntro ? 1 : 0)
                     .offset(x: animateIntro ? 0 : -80)
+                //Feder animation von links (x achse)
                     .animation(.interpolatingSpring(stiffness: 70, damping: 10).delay(0.4), value: animateIntro)
                 
                 // Textblock: Name & Kontaktdaten
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Stanislav Stanchev")
                         .font(.title2)
+                        .fontDesign(.serif)
                         .bold()
-                        .foregroundColor(.white)
+                        .foregroundColor(.gold)
+                    //Divider()
                     //für kleinere Displays- automatisch kleiner wenn wennig Platz
-                        .minimumScaleFactor(0.7)
+                        .minimumScaleFactor(0.5)
                         .opacity(animateIntro ? 1 : 0)
-                        .offset(y: animateIntro ? 0 : -20)
-                        .animation(.easeOut(duration: 1.2), value: animateIntro)
-                    Divider()
-                        .background(Color.yellow)
-                        .padding()
+                    //kommt von oben (Y achse)
+                        .offset(y: animateIntro ? 0 : -80)
+                        .animation(.easeOut(duration: 1), value: animateIntro)
                     
                     
+                    //Text und Symbol
                     Label("17.12.1984", systemImage: "calendar")
                     Label("Neue Straße 19a, 21635 Jork", systemImage: "house")
                     //für kleinere Displays- automatisch kleiner wenn wennig Platz
-                        .minimumScaleFactor(0.7)
+                        .minimumScaleFactor(0.5)
                     
+                    //öfnett mail
                     Link(destination: URL(string: "mailto:st.stancheff@gmail.com")!) {
                         HStack{
                             ZStack {
+                                //für den Icon
                                 Circle()
                                     .fill(Color.black.opacity(0.8))
                                     .frame(width: 26, height: 26)
@@ -64,8 +76,10 @@ struct HeaderView: View {
                         }
                         .foregroundColor(.blue)
                         .font(.subheadline)
-                        .minimumScaleFactor(0.7)
+                        .minimumScaleFactor(0.5)
                     }
+                    
+                    //für anruf
                     Link(destination: URL(string: "tel:+4915229062570")!) {
                         HStack {
                             ZStack {
@@ -77,6 +91,7 @@ struct HeaderView: View {
                             }
                             
                             Text("+49 1522 9062570")
+                            
                         }
                         .foregroundColor(.blue)
                         .font(.subheadline)
@@ -85,18 +100,24 @@ struct HeaderView: View {
                 .font(.subheadline)
                 .foregroundColor(.white)
             }
-            //Logo-Leiste: Figma, Swift, Kotlin – jeweils als runder Button
             
+            // Abstand zu dem obere rand
             .padding(.top, 20)
-            .padding(.bottom, 50)
+            //zu dem unteren rand
+            .padding(.bottom, 35)
             .padding(.horizontal)
             .background(
+                //eigenen background Rahme
                 RoundedCorner(radius: 30, corners: [.bottomLeft, .bottomRight])
                     .fill(Color(.black))
                     .shadow(color: .yellow, radius: 6, x: 3, y: 2)
             )
-            .overlay( //Die Icons legen wir per .overlay auf den Header
+            
+            //Die Icons legen per .overlay auf den Header
+            .overlay(
+                //hoorisontal geordent
                 HStack(spacing: 30) {
+                    //Link zu GitHub
                     Link(destination: URL(string: "https://github.com/STAN-dardCode?tab=repositories")!) {
                         Image("gitHub")
                             .resizable()
@@ -106,6 +127,7 @@ struct HeaderView: View {
                             .overlay(Circle().stroke(Color.yellow, lineWidth: 1))
                             .shadow(color: .yellow.opacity(0.6), radius: 4, x: 2, y: 2)
                     }
+                    //Link zu figma
                     Link(destination: URL(string: "https://www.figma.com/proto/JMS0G9MhL8nu3KOjXhsU8h/MatchApp?page-id=78%3A261&node-id=79-261&p=f&m=draw&scaling=scale-down&content-scaling=fixed&starting-point-node-id=79%3A261&show-proto-sidebar=1&t=TyXPrRsKGGwGJrCc-1")!) {
                         Image("figma")
                             .resizable()
@@ -115,6 +137,7 @@ struct HeaderView: View {
                             .overlay(Circle().stroke(Color.yellow, lineWidth: 1))
                             .shadow(color: .yellow.opacity(0.6), radius: 4, x: 2, y: 2)
                     }
+                    // Link zu Swift projekt
                     Link(destination: URL(string: "https://github.com/STAN-dardCode/Pass_Manager")!) {
                         Image("swift")
                             .resizable()
@@ -124,6 +147,7 @@ struct HeaderView: View {
                             .overlay(Circle().stroke(Color.yellow, lineWidth: 1))
                             .shadow(color: .yellow.opacity(0.6), radius: 4, x: 2, y: 2)
                     }
+                    //...zu Kotlin Projekt
                     Link(destination: URL(string: "https://github.com/STAN-dardCode/BankSecurity")!) {
                         Image("kotlin")
                             .resizable()
@@ -135,9 +159,10 @@ struct HeaderView: View {
                     }
                 }
                     .padding()
+                //auf nimmer sicher
                     .background(Color.clear)
-                    .offset(y: 35), //verschiebt die Icons nach unten
-                alignment: .bottom
+                //verschiebt die Icons nach unten
+                    .offset(y: 35), alignment: .bottom
                 
             )
             

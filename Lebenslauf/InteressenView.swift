@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InteressenView: View {
-    //alle Hobyes als Dict
+    //alle Hobyes als Tuple Array
     let hobbies: [(String, String)] = [
         ("Kochen", "fork.knife.circle"),
         ("Programmieren", "laptopcomputer"),
@@ -22,14 +22,16 @@ struct InteressenView: View {
     
     //sichtbarkeit animieren
     var body: some View {
+        //vertikal und linksbündig mit abstand
         VStack(alignment: .leading, spacing: 12) {
             Text("Hobbys")
                 .font(.headline)
-                .bold()
                 .foregroundColor(.white)
+            //Trennline
             Divider()
-                .background()
+                .background(Color.yellow)
             
+            //den hobbies - Array durchlaufen
             ForEach(hobbies, id: \.0) { hobby in
                 HStack(spacing: 10) {
                     Text("°")
@@ -42,14 +44,7 @@ struct InteressenView: View {
                 }
             }
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.black).opacity(0.8))
-                .shadow(color: .gold, radius: 6, x: 5, y: 2) // Tiefe unten rechts
-                .shadow(color: .yellow.opacity(0.5), radius: 5, x: -5, y: -2) // Licht oben links
-        )
-        .padding(.horizontal)
+        .styleModi()
     }
 }
 

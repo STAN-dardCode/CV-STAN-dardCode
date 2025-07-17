@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ExperienceView: View {
-    //Arbeitserfahrung
+    //Arbeitserfahrung- Tupel mit 3 Strings
     let jobs = [
         ("App- Entwickler Bootcamp", "Syntax Institut", "03.2025-....."),
         ("Umschulung zum Fachinformatiker", "Comcave College", "02.2024-01.2025"),
@@ -24,9 +24,9 @@ struct ExperienceView: View {
     ]
     //menü klappbar
     @State private var isExpanded = false
-    @Namespace private var animationNamespace
     
     var body: some View {
+        //alles linskbündig und vertikalen abstand zwischen Elementen
         VStack(alignment: .leading, spacing: 12){
             
             //DropDown
@@ -34,14 +34,18 @@ struct ExperienceView: View {
                 Text("Berufliche Laufbahn:")
                     .font(.headline)
                     .foregroundColor(.white)
-                
+                //Text eine seite Pfeil andere seite
                 Spacer()
                 Image(systemName: "chevron.down")
-                    .rotationEffect(.degrees(isExpanded ? 180 : 0))//der Pfail dreht sich
+                //der Pfail dreht sich
+                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
                     .foregroundColor(.white)
                     .animation(.easeInOut, value: isExpanded)
+                //bei tippen
                     .onTapGesture {
+                        //drehung animieren
                         withAnimation(.easeInOut(duration: 0.9)){
+                            //switch true / false
                             isExpanded.toggle()
                         }
                     }
@@ -51,25 +55,24 @@ struct ExperienceView: View {
             if isExpanded {
                 Divider()
                     .background()
+                //durchläuft den Tupple
+                //für jeder index wird zu eine eindeutiger id
                 ForEach(jobs.indices, id: \.self) { index in
+                    //das Tupel für die aktuelle zeile
                     let job = jobs[index]
                     
+                    //Eigene View für die karten. Die erste Index ist die aktuelle Position
                     JobCardView(job: job, isCurrent: index == 0)
-                        .transition(.move(edge: .leading).combined(with: .opacity))
+                    //animieren bei ein-/ausblenden
+                        .transition(.opacity.combined(with: .slide))
                         .animation(.easeIn.delay(Double(index) * 0.05), value: isExpanded)
-                        
                         
                     }
                     
                 }
             }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.black).opacity(0.8))
-                .shadow(color: .yellow, radius: 6, x: 3, y: 2))
-        .padding(.horizontal)
-
+        //eigenen modifier für rahmen
+        .styleModi()
     }
 }
 
